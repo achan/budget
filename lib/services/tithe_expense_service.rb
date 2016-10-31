@@ -35,12 +35,11 @@ class TitheExpenseService
   end
 
   def calculator
-    @calculator ||=
-      {
-        m: Proc.new { |income_in_cents| income_in_cents * 0.1 },
-        b: Proc.new { |income_in_cents| income_in_cents * 26 / 12 * 0.1 },
-        w: Proc.new { |income_in_cents| income_in_cents * 52 / 12 * 0.1 },
-        y: Proc.new { |income_in_cents| income_in_cents / 12 * 0.1 }
-      }
+    {
+      m: Proc.new { |income_in_cents| income_in_cents * 0.1 },
+      b: Proc.new { |income_in_cents| income_in_cents * 26 / 12 * 0.1 },
+      w: Proc.new { |income_in_cents| income_in_cents * 52 / 12 * 0.1 },
+      y: Proc.new { |income_in_cents| income_in_cents / 12 * 0.1 }
+    }
   end
 end
