@@ -1,0 +1,15 @@
+{
+  "accounts": [
+    { "slug": "condo",   "name": "Condo" },
+    { "slug": "savings", "name": "Savings" }
+  ],
+  "income": [
+    { "name": "Rent",     "account": "condo",   "amount_in_cents":  80000,  "frequency": "m" },
+    { "name": "Paycheck", "account": "savings", "amount_in_cents": 200000,  "frequency": "b" }
+  },
+  "expenses": [
+    { "account": "condo", "name": "South Shore mortgage",      "amount_in_cents":   30000, "frequency": "b"                               },
+    { "account": "condo", "name": "Home Line",                 "amount_in_cents":    4000, "frequency": "m", "paid_by_account": "savings" },
+    { "account": "condo", "name": "Parking Construction Fees", "amount_in_cents":   10000, "frequency": "m", "paid_by_account": "savings" }
+  ]
+}
