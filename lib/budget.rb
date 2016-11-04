@@ -16,23 +16,50 @@ class Budget
       end
   end
 
+  def loans
+    @expenses.
+      select(&:paid_by_account).
+      each_with_object({}) do |expense, acc|
+        acc[expense.account.slug] ||= {}
+        acc[expense.account.slug][expense.paid_by_account.slug] ||= 0 
+        acc[expense.account.slug][expense.paid_by_account.slug] += calculate_yearly_amount(expense)
+
+        acc
+      end
+  end
+
+  def to_s
+    "Yearly balances: #{balances}
+Yearly loans: #{loans}"
+  end
+
+  private
+
   def yearly_income(account)
-    calculate_total(@incomes, account)
+    calculate_total_for_account(account, @incomes)
   end
 
   def yearly_expense(account)
-    calculate_total(@expenses, account)
+    calculate_total_for_account(account, @expenses)
   end
 
-  def calculate_total(scheduled_transactions, account)
+  def calculate_total_for_account(account, scheduled_transactions)
+    calculate_total(scheduled_transactions.select { |st| st.account == account })
+  end
+
+  def calculate_total(scheduled_transactions)
     total =
       scheduled_transactions.
-        select { |s| s.account == account }.
-        each_with_object({ total: 0 }) do |s, acc|
-          acc[:total] += calculator[s.frequency].call(s.amount_in_cents)
+        each_with_object({ total: 0 }) do |st, acc|
+          acc[:total] += calculator[st.frequency].call(st.amount_in_cents)
         end
 
     total[:total]
+  end
+
+  def calculate_yearly_amount(scheduled_transaction)
+    calculator[scheduled_transaction.frequency].
+      call(scheduled_transaction.amount_in_cents)
   end
 
   def calculator

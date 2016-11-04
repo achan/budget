@@ -48,6 +48,10 @@ class DataImporterService
     end
   end
 
+  def build_budget
+    Budget.new(accounts, incomes, expenses)
+  end
+
   private
 
   def json

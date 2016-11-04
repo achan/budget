@@ -29,10 +29,36 @@ describe Budget do
 
     subject { Budget.new(accounts, incomes, expenses).balances }
 
-    it "lists accounts and their balances" do
+    it "lists accounts and their yearly balances" do
       expect(subject).to eq({
         "joint" => (90000 * 26) + (10000 * 12) - (50000 * 12),
         "savings" => (100000 * 12) - (25000 * 26),
+      })
+    end
+  end
+
+  describe "#loans" do
+    let(:joint_account) { build(:account, name: "Joint", slug: "joint") }
+    let(:savings_account) { build(:account, name: "Savings", slug: "savings") }
+    let(:random_account) { build(:account) }
+
+    let(:accounts) { [joint_account, savings_account, random_account] }
+
+    let(:expenses) do
+      [
+        build(:expense, account: random_account),
+        build(:expense, name: "South Shore Mortgage", account: joint_account, amount_in_cents: 25000, frequency: Frequency::BI_WEEKLY, paid_by_account: savings_account),
+        build(:expense, name: "Loan", account: savings_account, amount_in_cents: 1000, frequency: Frequency::BI_WEEKLY, paid_by_account: joint_account),
+        build(:expense, name: "Loan 2", account: savings_account, amount_in_cents: 3000, frequency: Frequency::YEARLY, paid_by_account: joint_account)
+      ]
+    end
+
+    subject { Budget.new(accounts, [], expenses).loans }
+
+    it "lists accounts and their yearly loans" do
+      expect(subject).to eq({
+        "savings" => { "joint" => (1000 * 26) + 3000 },
+        "joint" => { "savings" => 25000 * 26 }
       })
     end
   end
