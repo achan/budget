@@ -22,6 +22,15 @@ require "forgery"
 require "pry"
 require "support/factory_girl"
 
+require "models/account"
+require "models/income"
+require "models/expense"
+require "models/frequency"
+require "models/payment"
+require "budget"
+require "services/data_importer_service"
+require "services/balance_reconciliation_service"
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

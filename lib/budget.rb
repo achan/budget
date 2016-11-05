@@ -1,5 +1,3 @@
-require "json"
-
 class Budget
   def initialize(accounts, incomes, expenses)
     @accounts = accounts
@@ -16,24 +14,46 @@ class Budget
       end
   end
 
-  def loans
+  def loan_paypack_payments
     @expenses.
       select(&:paid_by_account).
-      each_with_object({}) do |expense, acc|
-        acc[expense.account.slug] ||= {}
-        acc[expense.account.slug][expense.paid_by_account.slug] ||= 0 
-        acc[expense.account.slug][expense.paid_by_account.slug] += calculate_yearly_amount(expense)
-
-        acc
-      end
+      each_with_object({}) { |expense, acc| build_yearly_loan(expense, acc) }.
+      map { |account, yearly_loan| build_payments(account, yearly_loan) }.
+      flatten.
+      sort { |x, y| y.amount_in_cents <=> x.amount_in_cents }
   end
 
   def to_s
-    "Yearly balances: #{balances}
-Yearly loans: #{loans}"
+    "Yearly balances:
+#{balances}
+
+Balance Reconciliation:
+#{BalanceReconciliationService.new.process(balances).map(&:to_s).join("\n")}
+
+Loan Payback:
+#{loan_paypack_payments.map(&:to_s).join("\n")}"
   end
 
   private
+
+  def build_yearly_loan(expense, acc)
+    acc[expense.account.name] ||= {}
+    acc[expense.account.name][expense.paid_by_account.name] ||= 0 
+    acc[expense.account.name][expense.paid_by_account.name] += calculate_yearly_amount(expense)
+
+    acc
+  end
+
+  def build_payments(account, yearly_loans)
+    yearly_loans.map do |loan_account, amount|
+      Payment.new(
+        from_account: account,
+        to_account: loan_account,
+        amount_in_cents: amount / 12.0,
+        frequency: Frequency::MONTHLY
+      )
+    end
+  end
 
   def yearly_income(account)
     calculate_total_for_account(account, @incomes)

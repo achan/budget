@@ -3,7 +3,7 @@
     { "slug": "condo",   "name": "Condo" },
     { "slug": "savings", "name": "Savings" }
   ],
-  "income": [
+  "incomes": [
     { "name": "Rent",     "account": "condo",   "amount_in_cents":  80000,  "frequency": "m" },
     { "name": "Paycheck", "account": "savings", "amount_in_cents": 200000,  "frequency": "b" }
   },
