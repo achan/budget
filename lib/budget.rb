@@ -20,7 +20,7 @@ class Budget
       each_with_object({}) { |expense, acc| build_yearly_loan(expense, acc) }.
       map { |account, yearly_loan| build_payments(account, yearly_loan) }.
       flatten.
-      sort { |x, y| y.amount_in_cents <=> x.amount_in_cents }
+      sort_by { |payment| [payment.from_account, payment.amount_in_cents] }
   end
 
   def to_s

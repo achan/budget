@@ -53,8 +53,8 @@ describe Budget do
     it "lists accounts and their bi-weekly payments to reconcile expenses paid by other accounts" do
       expect(subject).to eq [
         Payment.new(from_account: "Joint", to_account: "Savings", amount_in_cents: (25000.0 * 26 / 12), frequency: Frequency::MONTHLY),
-        Payment.new(from_account: "Savings", to_account: "Joint", amount_in_cents: (1000.0 * 26 / 12) + (3000 / 12.0), frequency: Frequency::MONTHLY),
-        Payment.new(from_account: "Savings", to_account: "Credit Card", amount_in_cents: 2000 / 12.0, frequency: Frequency::MONTHLY)
+        Payment.new(from_account: "Savings", to_account: "Credit Card", amount_in_cents: 2000 / 12.0, frequency: Frequency::MONTHLY),
+        Payment.new(from_account: "Savings", to_account: "Joint", amount_in_cents: (1000.0 * 26 / 12) + (3000 / 12.0), frequency: Frequency::MONTHLY)
       ]
     end
   end
