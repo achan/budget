@@ -1,5 +1,4 @@
 require "services/data_importer_service"
-require "models/account"
 require "models/income"
 require "models/expense"
 require "models/frequency"
@@ -12,21 +11,8 @@ describe DataImporterService do
     subject { importer.accounts }
 
     context "with multiple accounts" do
-      let(:json) do
-        {
-          accounts: [
-            { slug: "credit-card", name: "Credit Card" },
-            { slug: "savings", name: "Savings" }
-          ]
-        }
-      end
-
-      let(:accounts) do
-        [
-          build(:account, slug: "credit-card", name: "Credit Card"),
-          build(:account, slug: "savings", name: "Savings")
-        ]
-      end
+      let(:json) { { accounts: ["Credit Card", "Savings"] } }
+      let(:accounts) { ["Credit Card", "Savings"] }
 
       subject { DataImporterService.new(json).accounts }
 
@@ -45,19 +31,15 @@ describe DataImporterService do
     context "with multiple incomes" do
       let(:json) do
         {
-          accounts: [
-            { slug: "savings", name: "Savings" }
-          ],
+          accounts: ["Savings"],
           incomes: [
-            { name: "Rent", account: "savings", amount_in_cents: 95000, frequency: "m" },
-            { name: "Salary", account: "savings", amount_in_cents: 70000, frequency: "b" }
+            { name: "Rent", account: "Savings", amount_in_cents: 95000, frequency: "m" },
+            { name: "Salary", account: "Savings", amount_in_cents: 70000, frequency: "b" }
           ]
         }
       end
 
-      let(:savings_account) do
-        build(:account, slug: "savings", name: "Savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [
@@ -83,24 +65,17 @@ describe DataImporterService do
     context "with multiple expenses" do
       let(:json) do
         {
-          accounts: [
-            { slug: "savings", name: "Savings" },
-            { slug: "credit-card", name: "Credit Card" }
-          ],
+          accounts: [ "Savings", "Credit Card" ],
           expenses: [
-            { name: "Phone Bill", account: "savings", amount_in_cents: 95000, frequency: "m", paid_by_account: "credit-card" },
-            { name: "Child Support", account: "savings", amount_in_cents: 70000, frequency: "b" }
+            { name: "Phone Bill", account: "Savings", amount_in_cents: 95000, frequency: "m", paid_by_account: "Credit Card" },
+            { name: "Child Support", account: "Savings", amount_in_cents: 70000, frequency: "b" }
           ]
         }
       end
 
-      let(:savings_account) do
-        build(:account, slug: "savings", name: "Savings")
-      end
+      let(:savings_account) { "Savings" }
 
-      let(:credit_card_account) do
-        build(:account, slug: "credit-card", name: "Credit Card")
-      end
+      let(:credit_card_account) { "Credit Card" }
 
       let(:expenses) do
         [
@@ -119,15 +94,13 @@ describe DataImporterService do
     context "when there are tithable incomes" do
       let(:json) do
         {
-          accounts: [
-            { slug: "savings", name: "Savings" }
-          ],
+          accounts: ["Savings"],
           incomes: [
-            { name: "Rent", account: "savings", amount_in_cents: 95000, frequency: "m" },
-            { name: "Salary", account: "savings", amount_in_cents: 70000, frequency: "b", tithable: true }
+            { name: "Rent", account: "Savings", amount_in_cents: 95000, frequency: "m" },
+            { name: "Salary", account: "Savings", amount_in_cents: 70000, frequency: "b", tithable: true }
           ],
           expenses: [
-            { name: "Child Support", account: "savings", amount_in_cents: 70000, frequency: "b" }
+            { name: "Child Support", account: "Savings", amount_in_cents: 70000, frequency: "b" }
           ]
         }
       end
@@ -139,13 +112,9 @@ describe DataImporterService do
         ]
       end
 
-      let(:savings_account) do
-        build(:account, slug: "savings", name: "Savings")
-      end
+      let(:savings_account) { "Savings" }
 
-      let(:credit_card_account) do
-        build(:account, slug: "credit-card", name: "Credit Card")
-      end
+      let(:credit_card_account) { "Credit Card" }
 
       let(:expenses) do
         [

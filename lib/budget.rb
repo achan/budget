@@ -7,9 +7,9 @@ class Budget
 
   def balances
     @accounts.
-      map { |a| { slug: a.slug, balance: yearly_income(a) - yearly_expense(a) } }.
+      map { |a| { account: a, balance: yearly_income(a) - yearly_expense(a) } }.
       each_with_object({}) do |balance, acc|
-        acc[balance[:slug]] = balance[:balance]
+        acc[balance[:account]] = balance[:balance]
         acc
       end
   end
@@ -37,9 +37,9 @@ Loan Payback:
   private
 
   def build_yearly_loan(expense, acc)
-    acc[expense.account.name] ||= {}
-    acc[expense.account.name][expense.paid_by_account.name] ||= 0 
-    acc[expense.account.name][expense.paid_by_account.name] += calculate_yearly_amount(expense)
+    acc[expense.account] ||= {}
+    acc[expense.account][expense.paid_by_account] ||= 0 
+    acc[expense.account][expense.paid_by_account] += calculate_yearly_amount(expense)
 
     acc
   end

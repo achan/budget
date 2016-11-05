@@ -1,6 +1,5 @@
 require "./lib/budget"
 require "./lib/models/frequency"
-require "./lib/models/account"
 require "./lib/models/income"
 require "./lib/models/expense"
 require "./lib/models/payment"

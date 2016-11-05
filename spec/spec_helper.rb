@@ -22,7 +22,6 @@ require "forgery"
 require "pry"
 require "support/factory_girl"
 
-require "models/account"
 require "models/income"
 require "models/expense"
 require "models/frequency"

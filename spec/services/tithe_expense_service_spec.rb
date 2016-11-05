@@ -1,15 +1,12 @@
 require "services/tithe_expense_service"
 require "models/frequency"
-require "models/account"
 require "models/income"
 require "models/expense"
 
 describe TitheExpenseService do
   describe "#process" do
     context "with no tithable income" do
-      let(:savings_account) do
-        build(:account, name: "Savings", slug: "savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [
@@ -29,9 +26,7 @@ describe TitheExpenseService do
     end
 
     context "with a monthly tithable income" do
-      let(:savings_account) do
-        build(:account, name: "Savings", slug: "savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [
@@ -60,9 +55,7 @@ describe TitheExpenseService do
     end
 
     context "with a bi-weekly tithable income" do
-      let(:savings_account) do
-        build(:account, name: "Savings", slug: "savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [
@@ -91,9 +84,7 @@ describe TitheExpenseService do
     end
 
     context "with a weekly tithable income" do
-      let(:savings_account) do
-        build(:account, name: "Savings", slug: "savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [
@@ -122,9 +113,7 @@ describe TitheExpenseService do
     end
 
     context "with a yearly tithable income" do
-      let(:savings_account) do
-        build(:account, name: "Savings", slug: "savings")
-      end
+      let(:savings_account) { "Savings" }
 
       let(:incomes) do
         [

@@ -1,7 +1,7 @@
 describe Budget do
   describe "#balances" do
-    let(:joint_account) { build(:account, name: "Joint", slug: "joint") }
-    let(:savings_account) { build(:account, name: "Savings", slug: "savings") }
+    let(:joint_account) { "Joint" }
+    let(:savings_account) { "Savings" }
 
     let(:accounts) { [joint_account, savings_account] }
 
@@ -24,17 +24,17 @@ describe Budget do
 
     it "lists accounts and their yearly balances" do
       expect(subject).to eq({
-        "joint" => (90000 * 26) + (10000 * 12) - (50000 * 12),
-        "savings" => (100000 * 12) - (25000 * 26),
+        "Joint" => (90000 * 26) + (10000 * 12) - (50000 * 12),
+        "Savings" => (100000 * 12) - (25000 * 26),
       })
     end
   end
 
   describe "#loan_paypack_payments" do
-    let(:joint_account) { build(:account, name: "Joint", slug: "joint") }
-    let(:savings_account) { build(:account, name: "Savings", slug: "savings") }
-    let(:credit_card_account) { build(:account, name: "Credit Card", slug: "cc") }
-    let(:random_account) { build(:account) }
+    let(:joint_account) { "Joint" }
+    let(:savings_account) { "Savings" }
+    let(:credit_card_account) { "Credit Card" }
+    let(:random_account) { Forgery("name").company_name }
 
     let(:accounts) { [joint_account, savings_account, random_account, credit_card_account] }
 

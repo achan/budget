@@ -17,7 +17,7 @@ class Expense
   end
 
   def to_s
-    paying_account = account.name
+    paying_account = account
     paying_account = "#{paying_account} paid by #{paid_by_account.name}" if paid_by_account
     "[#{paying_account}] #{name} ($#{"%.2f" % (amount_in_cents / 100.0)}) #{FREQUENCY_IN_WORDS[frequency]}."
   end
