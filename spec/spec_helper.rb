@@ -29,6 +29,7 @@ require "models/payment"
 require "budget"
 require "services/data_importer_service"
 require "services/balance_reconciliation_service"
+require "services/combine_payments_service"
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

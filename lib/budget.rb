@@ -31,7 +31,7 @@ Balance Reconciliation:
 #{BalanceReconciliationService.new.process(balances).map(&:to_s).join("\n")}
 
 Loan Payback:
-#{loan_paypack_payments.map(&:to_s).join("\n")}"
+#{CombinePaymentsService.new.process(loan_paypack_payments).map(&:to_s).join("\n")}"
   end
 
   private

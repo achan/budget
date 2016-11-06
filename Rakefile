@@ -6,6 +6,7 @@ require "./lib/models/payment"
 require "./lib/services/data_importer_service"
 require "./lib/services/tithe_expense_service"
 require "./lib/services/balance_reconciliation_service"
+require "./lib/services/combine_payments_service"
 require "json"
 
 task :print_budget do
