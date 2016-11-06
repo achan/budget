@@ -31,10 +31,23 @@ Balance Reconciliation:
 #{BalanceReconciliationService.new.process(balances).map(&:to_s).join("\n")}
 
 Loan Payback:
-#{CombinePaymentsService.new.process(loan_paypack_payments).map(&:to_s).join("\n")}"
+#{CombinePaymentsService.new.process(loan_paypack_payments).map(&:to_s).join("\n")}
+
+Yearly savings:
+#{display_amount(balances.values.inject(0, :+))}
+
+Monthly savings:
+#{display_amount(balances.values.inject(0, :+) / 12)}
+
+Bi-Weekly savings:
+#{display_amount(balances.values.inject(0, :+) / 26)}"
   end
 
   private
+
+  def display_amount(cents)
+    "$%.2f" % (cents / 100.0)
+  end
 
   def build_yearly_loan(expense, acc)
     acc[expense.account] ||= {}
