@@ -36,8 +36,34 @@ describe Payment do
         expect(subject).to eq Payment.new(
           from_account: "Savings",
           to_account: "Joint",
-          amount_in_cents: 10 * 26 / 12,
+          amount_in_cents: (10 * 26 / 12.0).ceil,
           frequency: Frequency::MONTHLY
+        )
+      end
+    end
+  end
+
+  describe "#semi_monthly" do
+    let(:payment) do
+      Payment.new(
+        from_account: "Savings",
+        to_account: "Joint",
+        amount_in_cents: 10,
+        frequency: frequency
+      )
+    end
+
+    context "with a weekly payment" do
+      let(:frequency) { Frequency::WEEKLY }
+
+      subject { payment.semi_monthly }
+
+      it "converts to semi-monthly payment (twice a month)" do
+        expect(subject).to eq Payment.new(
+          from_account: "Savings",
+          to_account: "Joint",
+          amount_in_cents: (10 * 52 / 24.0).ceil,
+          frequency: Frequency::SEMI_MONTHLY
         )
       end
     end
@@ -62,7 +88,7 @@ describe Payment do
         expect(subject).to eq Payment.new(
           from_account: "Savings",
           to_account: "Joint",
-          amount_in_cents: 10 * 52 / 26,
+          amount_in_cents: (10 * 52 / 26.0).ceil,
           frequency: Frequency::BI_WEEKLY
         )
       end
@@ -88,7 +114,7 @@ describe Payment do
         expect(subject).to eq Payment.new(
           from_account: "Savings",
           to_account: "Joint",
-          amount_in_cents: 10 * 12 / 52,
+          amount_in_cents: (10 * 12 / 52.0).ceil,
           frequency: Frequency::WEEKLY
         )
       end
