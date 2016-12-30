@@ -17,8 +17,8 @@ class BalanceReconciliationService
       Payment.new(
         from_account: from_account[0],
         to_account: account[0],
-        amount_in_cents: amount_to_pay / 26.0,
-        frequency: Frequency::BI_WEEKLY
+        amount_in_cents: amount_to_pay / 24.0,
+        frequency: Frequency::SEMI_MONTHLY
       )
     end
   end

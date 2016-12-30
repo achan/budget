@@ -4,6 +4,7 @@ class Payment
   FREQUENCY_IN_WORDS = {
     b: "every two weeks",
     w: "every week",
+    sm: "twice a month",
     m: "every month",
     y: "every year"
   }
@@ -41,6 +42,10 @@ class Payment
     convert_payment_to_frequency(Frequency::WEEKLY)
   end
 
+  def semi_monthly
+    convert_payment_to_frequency(Frequency::SEMI_MONTHLY)
+  end
+
   def to_s
     "[#{from_account}] Payment of $#{"%.2f" % (amount_in_cents / 100.0)} to #{to_account} #{FREQUENCY_IN_WORDS[frequency]}."
   end
@@ -69,6 +74,7 @@ class Payment
   def yearly_calculator
     {
       m: Proc.new { |cents| cents * 12 },
+      sm: Proc.new { |cents| cents * 24 },
       b: Proc.new { |cents| cents * 26 },
       w: Proc.new { |cents| cents * 52 },
       y: Proc.new { |cents| cents }
@@ -77,9 +83,10 @@ class Payment
 
   def from_yearly_calculator
     {
-      m: Proc.new { |cents| cents / 12 },
-      b: Proc.new { |cents| cents / 26 },
-      w: Proc.new { |cents| cents / 52 },
+      m: Proc.new { |cents| (cents / 12.0).ceil },
+      sm: Proc.new { |cents| (cents / 24.0).ceil },
+      b: Proc.new { |cents| (cents / 26.0).ceil },
+      w: Proc.new { |cents| (cents / 52.0).ceil },
       y: Proc.new { |cents| cents }
     }
   end

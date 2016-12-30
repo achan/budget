@@ -54,6 +54,35 @@ describe TitheExpenseService do
       end
     end
 
+    context "with a semi monthly tithable income" do
+      let(:savings_account) { "Savings" }
+
+      let(:incomes) do
+        [
+          build(:income,
+                name: "Salary",
+                amount_in_cents: 60000,
+                frequency: Frequency::SEMI_MONTHLY,
+                tithable: true,
+                account: savings_account)
+        ]
+      end
+
+      let(:tithe_expense) do
+        build(:expense,
+              name: "Tithe",
+              amount_in_cents: 12000,
+              frequency: Frequency::MONTHLY,
+              account: savings_account)
+      end
+
+      subject { TitheExpenseService.new(savings_account).process([], incomes) }
+
+      it "appends a monthly tithe" do
+        expect(subject).to eq [tithe_expense]
+      end
+    end
+
     context "with a bi-weekly tithable income" do
       let(:savings_account) { "Savings" }
 

@@ -98,6 +98,7 @@ Bi-Weekly savings:
   def calculator
     {
       m: Proc.new { |cents| cents * 12 },
+      sm: Proc.new { |cents| cents * 24 },
       b: Proc.new { |cents| cents * 26 },
       w: Proc.new { |cents| cents * 52 },
       y: Proc.new { |cents| cents }

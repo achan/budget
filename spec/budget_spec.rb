@@ -7,7 +7,7 @@ describe Budget do
 
     let(:incomes) do
       [
-        build(:income, name: "Salary", account: joint_account, amount_in_cents: 90000, frequency: Frequency::BI_WEEKLY),
+        build(:income, name: "Salary", account: joint_account, amount_in_cents: 90000, frequency: Frequency::SEMI_MONTHLY),
         build(:income, name: "Moonlight", account: joint_account, amount_in_cents: 10000, frequency: Frequency::MONTHLY),
         build(:income, name: "Rent", account: savings_account, amount_in_cents: 100000, frequency: Frequency::MONTHLY)
       ]
@@ -24,7 +24,7 @@ describe Budget do
 
     it "lists accounts and their yearly balances" do
       expect(subject).to eq({
-        "Joint" => (90000 * 26) + (10000 * 12) - (50000 * 12),
+        "Joint" => (90000 * 24) + (10000 * 12) - (50000 * 12),
         "Savings" => (100000 * 12) - (25000 * 26),
       })
     end
